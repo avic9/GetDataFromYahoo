@@ -36,6 +36,8 @@ def get_default_rows() -> List[Dict[str, Any]]:
 def load_rows_from_xml(xml_path: Optional[Path] = None) -> List[Dict[str, Any]]:
     if xml_path is None:
         xml_path = get_xml_path()
+    elif not isinstance(xml_path, Path):
+        xml_path = Path(str(xml_path))
 
     if not xml_path.exists():
         return get_default_rows()
@@ -163,8 +165,16 @@ def send_email_report(subject: str, body: str, recipient: Optional[str] = None) 
     from_email = os.getenv("FROM_EMAIL", username or "github-actions@localhost")
 
     if not host or not username or not password or not to_email:
-        print("Email not sent: SMTP_HOST, SMTP_USERNAME, SMTP_PASSWORD, or EMAIL_TO is missing.")
-        return
+        missing = []
+        if not host:
+            missing.append("SMTP_HOST")
+        if not username:
+            missing.append("SMTP_USERNAME")
+        if not password:
+            missing.append("SMTP_PASSWORD")
+        if not to_email:
+            missing.append("EMAIL_TO")
+        raise RuntimeError(f"Email not sent: missing GitHub Actions secrets -> {', '.join(missing)}")
 
     message = EmailMessage()
     message["Subject"] = subject
