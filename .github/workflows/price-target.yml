@@ -30,18 +30,11 @@ jobs:
           python run_price_target.py --ticker AAPL --ticker MSFT --ticker BAC --ticker NVDA
 
       - name: Send status email
-        uses: dawidd6/action-send-mail@v4
+        uses: Raghul-M/gmail-sender-action@v1
         with:
-          server_address: smtp.gmail.com
-          server_port: 587
-          secure: true
-          username: ${{ secrets.GMAIL_USERNAME }}
-          password: ${{ secrets.GMAIL_APP_PASSWORD }}
+          sender_email: ${{ secrets.GMAIL_SENDER }}
+          app_password: ${{ secrets.GMAIL_APP_PASSWORD }}
+          receiver_emails: ${{ secrets.RECIPIENTS }}
+          template_path: templates/email_template.html
           subject: Price Target Report
-          to: ${{ secrets.EMAIL_TO }}
-          from: GitHub Actions Workflow <${{ secrets.FROM_EMAIL }}>
-          body: |
-            The price target workflow ran successfully.
-            Repository: ${{ github.repository }}
-            Commit: ${{ github.sha }}
 
