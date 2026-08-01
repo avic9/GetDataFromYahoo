@@ -24,7 +24,10 @@ def main() -> int:
     print("\n" + report)
 
     subject = f"Price Target Report - {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
-    send_email_report(subject, report, args.email)
+    if os.getenv("GITHUB_ACTIONS") == "true":
+        print("Skipping Python-side email send; workflow mail step will handle delivery.")
+    else:
+        send_email_report(subject, report, args.email)
 
     print(f"\nSaved XML report to {xml_path}")
     return 0

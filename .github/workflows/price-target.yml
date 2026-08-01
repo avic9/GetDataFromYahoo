@@ -35,11 +35,11 @@ jobs:
           server_address: smtp.gmail.com
           server_port: 465
           secure: true
-          username: chn.avraham@gmail.com
-          password: ${{ secrets.GMAIL_APP_PASSWORD }}
+          username: ${{ secrets.SMTP_USERNAME }}
+          password: ${{ secrets.SMTP_PASSWORD }}
           subject: Price Target Report
           to: ${{ secrets.EMAIL_TO }}
-          from: GitHub Actions Workflow <chn.avraham@gmail.com>
+          from: GitHub Actions Workflow <${{ secrets.FROM_EMAIL }}>
           body: |
             The price target workflow ran successfully.
             Repository: ${{ github.repository }}
