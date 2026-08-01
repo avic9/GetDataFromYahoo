@@ -15,7 +15,7 @@ def main() -> int:
 
     rows = load_rows_from_xml(Path(args.xml_path) if args.xml_path else None)
     if args.ticker:
-        rows = [{**row, "TickerName": ticker} for ticker in args.ticker]
+        rows = [{"TickerName": ticker, "TargetPrice": "", "CurrentPrice": "", "PERatio": "", "ROIC": ""} for ticker in args.ticker]
 
     updated_rows = update_rows_from_yahoo(rows)
     xml_path = save_rows_to_xml(updated_rows, Path(args.xml_path) if args.xml_path else None)
