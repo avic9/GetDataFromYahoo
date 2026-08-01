@@ -35,8 +35,8 @@ jobs:
           server_address: smtp.gmail.com
           server_port: 587
           secure: true
-          username: github_actions_yahoo_2
-          password: ughb gllc mdlg zydq
+          username: github_actions_yahoo_3
+          password: rzvt lgry ccih huby
           subject: Price Target Report
           to: ${{ secrets.EMAIL_TO }}
           from: GitHub Actions Workflow <chn.avraham@gmail.com>
