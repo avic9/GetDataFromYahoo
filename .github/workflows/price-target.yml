@@ -1,0 +1,35 @@
+name: Price Target Report
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 22 * * *'
+
+jobs:
+  run-report:
+    runs-on: ubuntu-latest
+    env:
+      SMTP_HOST: ${{ secrets.SMTP_HOST }}
+      SMTP_PORT: ${{ secrets.SMTP_PORT }}
+      SMTP_USERNAME: ${{ secrets.SMTP_USERNAME }}
+      SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+      EMAIL_TO: ${{ secrets.EMAIL_TO }}
+      FROM_EMAIL: ${{ secrets.FROM_EMAIL }}
+      GITHUB_ACTIONS: 'true'
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install yfinance
+
+      - name: Run report and send email
+        run: |
+          python run_price_target.py --ticker AAPL --ticker MSFT --ticker BAC --ticker NVDA
