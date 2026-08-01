@@ -33,13 +33,13 @@ jobs:
         uses: dawidd6/action-send-mail@v4
         with:
           server_address: smtp.gmail.com
-          server_port: 465
+          server_port: 587
           secure: true
-          username: ${{ secrets.SMTP_USERNAME }}
-          password: ${{ secrets.SMTP_PASSWORD }}
+          username: github_actions_yahoo_2
+          password: ughb gllc mdlg zydq
           subject: Price Target Report
           to: ${{ secrets.EMAIL_TO }}
-          from: GitHub Actions Workflow <${{ secrets.FROM_EMAIL }}>
+          from: GitHub Actions Workflow <chn.avraham@gmail.com>
           body: |
             The price target workflow ran successfully.
             Repository: ${{ github.repository }}
