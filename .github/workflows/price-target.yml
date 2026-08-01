@@ -13,7 +13,7 @@ jobs:
       GITHUB_ACTIONS: 'true'
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@4
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -29,14 +29,19 @@ jobs:
         run: |
           python run_price_target.py --ticker AAPL --ticker MSFT --ticker BAC --ticker NVDA
 
-      - name: Send email via Mailgun Action
-        uses: vineetchoudhary/mailgun-action@master
+      - name: Send status email
+        uses: dawidd6/action-send-mail@v4
         with:
-          api-key: ${{ secrets.MAILGUN_API_KEY }}
-          domain: ${{ secrets.MAILGUN_DOMAIN }}
-          to: ${{ secrets.EMAIL_TO }}
-          from: ${{ secrets.FROM_EMAIL }}
+          server_address: smtp.gmail.com
+          server_port: 465
+          secure: true
+          username: chn.avraham@gmail.com
+          password: ${{ secrets.GMAIL_APP_PASSWORD }}
           subject: Price Target Report
+          to: ${{ secrets.EMAIL_TO }}
+          from: GitHub Actions Workflow <chn.avraham@gmail.com>
           body: |
-            The latest price target report was generated successfully.
-            Check the workflow run for details.
+            The price target workflow ran successfully.
+            Repository: ${{ github.repository }}
+            Commit: ${{ github.sha }}
+
